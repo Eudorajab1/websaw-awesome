@@ -1,0 +1,63 @@
+'[[extend "app_layout.html"]]'
+section(class="section", id="vue"):
+    div(class="container"):
+        div(class="columns"):
+            div(class="column is-half"):
+                div(class="notification is-primary"):
+                    "You have been here [[=session.get('counter')]] times"
+            div(class="column is-half"):
+                div(class="notification is-info"):
+                    "There are {{items.length}} todo items"
+        div(class="columns"):
+            div(class="column is-three-quarters"):
+                textarea(class="textarea", v-model="input", placeholder="something todo?"):
+        div(class="column"):
+            button(class="button is-primary", @click="save()"):
+                i(class="fas fa-plus"): '&nbsp;Add'
+        table(class="table", style="width:100%"):
+            tr(v-for = "item in items"):
+                td(width="100%"):'{{item.info}}'
+                td:
+                    button(class="button", @click="remove(item.id)"):
+                        i(class="fas fa-trash"): '&nbsp;Done'
+v-pyj:
+    from asset.common import asyncer
+    from asset.rs_vue import v_meth, v_computed, v_watch, RS_vue, V_collector
+    vc = V_collector()
+    class App(RS_vue):
+        def __init__(self):
+            super(vc)
+            self.el ='#vue'
+
+        def _init_data(self):
+            return {
+                items:[],
+                input:'',
+                api : '/' + window.location.href.split('/')[3] + '/api'
+            }
+
+        @vc.meth
+        @asyncer
+        def load(self):
+            res = yield axios.get(self.api)
+            self.items = res.data.items
+
+        def created(self):
+            self.load()
+
+        @vc.meth
+        @asyncer
+        def save(self, item_id):
+            res = yield axios.post(self.api, {info: self.input})
+            if self.input:
+                self.items.unshift({id:res.data.id, info: self.input})
+            self.input=''
+
+        @vc.meth
+        @asyncer
+        def remove(self, item_id):
+            yield axios.delete(self.api + '/'+ item_id)
+            idx = self.items.findIndex(def(it): return it.id == item_id;)
+            self.$delete(self.items, idx)
+
+    window.app = new Vue(App())

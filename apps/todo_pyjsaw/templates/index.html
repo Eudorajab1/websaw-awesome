@@ -1,0 +1,38 @@
+
+[[extend "app_layout.html"]]
+<section  class = "section" id = "vue">
+    <div  class = "container">
+        <div  class = "columns">
+            <div  class = "column is-half">
+                <div  class = "notification is-primary">
+                    You have been here [[=session.get('counter')]] times
+                </div>
+            </div>
+            <div  class = "column is-half">
+                <div  class = "notification is-info">
+                    There are {{items.length}} todo items
+                </div>
+            </div>
+        </div>
+        <div  class = "columns">
+            <div  class = "column is-three-quarters">
+                <textarea  class = "textarea" v-model = "input" placeholder = "something todo?"></textarea>
+            </div>
+        </div>
+        <div  class = "column">
+            <button  class = "button is-primary" @click = "save()">
+                <i  class = "fas fa-plus">&nbsp;Add</i>
+            </button>
+        </div>
+        <table  class = "table" style = "width:100%">
+            <tr  v-for = "item in items">
+                <td  width = "100%">{{item.info}}</td>
+                <td>
+                    <button  class = "button" @click = "remove(item.id)">
+                        <i  class = "fas fa-trash">&nbsp;Done</i>
+                    </button>
+                </td>
+            </tr>
+        </table>
+    </div>
+</section>
