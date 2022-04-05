@@ -134,3 +134,6 @@ dmypy.json
 apps/spa_blog/databases/*.table
 apps/spa_blog/databases/storage.db
 apps/spa_blog/static/images/profile.*
+apps/todo/databases/fb87181b96a99be45f5a23f4277867ce_todo.table
+apps/todo_pyjsaw/databases/fb87181b96a99be45f5a23f4277867ce_todo.table
+apps/todo_pyjsaw/databases/storage.db
