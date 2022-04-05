@@ -6,6 +6,10 @@ __pycache__/
 # C extensions
 *.so
 
+# databases
+
+
+
 # Distribution / packaging
 .Python
 build/
@@ -127,3 +131,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+apps/spa_blog/databases/*.table
+apps/spa_blog/databases/storage.db
+apps/spa_blog/static/images/profile.*
