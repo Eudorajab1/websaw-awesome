@@ -9,6 +9,8 @@ https://jab-doctest.readthedocs.io/en/latest/installation.html
 
 Once Websaw is installed you can download the .zip file and unzip it into your websaw/apps folder.
 
+Alternatively you can select only the apps/examples you are insterested in and copy them into your /apps folder.
+
 ```
 Note :
 
@@ -19,5 +21,9 @@ Please refer to the relevant secion of the Websaw User Guide above
 ```
 
 Thes Applications are NOT for production use and are intended for instructory purposes only.
+
+### Have an app you want to showcase?
+
+Simply create a Pull Request and our moderatrs will review and merge if appropriate. 
 
 Happy Coding
