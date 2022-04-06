@@ -1,0 +1,18 @@
+[[extend 'layout_app.html']]
+[[block page_menu_items]]<!-- individual pages can add menu items here -->
+<a class="navbar-item " href="[[=URL('index')]]">
+	<div class="icon-text">
+	  <span class="icon has-text-success">
+		<i class="fas fa-tachometer-alt fa-lg"></i>
+	  </span>
+	  <span class="has-text-primary is-size-5 has-text-weight-semibold">Dashboard</span>
+	</div>
+</a>
+[[end]]          
+<div class="columns">
+	<div class="column is-12">
+		<div class="box" style="width:100%">
+			[[=XML(grid)]]
+		</div>
+	</div>	
+</div>

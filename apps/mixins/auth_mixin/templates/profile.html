@@ -1,0 +1,23 @@
+[[extend "layout_app.html"]]
+[[block content]]
+<div class="column is-6 is-offset-one-quarter">
+  <div class="card">
+    <div class="card-content">
+      <div class="media">
+        <div class="media-left">
+          <figure class="image is-96x96">
+            <img class=" is-rounded" src="[[=icon]]" alt="Placeholder image">
+          </figure>
+        </div>
+        <div class="media-content">
+          <p class="title is-4 is-primary">[[=auth_user['first_name'] ]] [[=auth_user['last_name'] ]]</p>
+          <p class="subtitle is-6">[[=auth_user['email'] ]]</p>
+        </div>
+      </div>
+      [[=aform]]
+    </div>    
+  </div>
+</div>  
+
+[[end]]
+
