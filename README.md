@@ -17,4 +17,7 @@ in order to modify them.
 
 Please refer to the relevant secion of the Websaw User Guide above
 ```
+
+Thes Applications are NOT for production use and are intended for instructory purposes only.
+
 Happy Coding
