@@ -1,0 +1,57 @@
+[[extend 'layout_app.html']]
+[[block page_menu_items]]<!-- individual pages can add menu items here -->
+<a class="navbar-item " href="[[=URL('index')]]">
+	<div class="icon-text">
+	  <span class="icon has-text-success">
+		<i class="fas fa-tachometer-alt fa-lg"></i>
+	  </span>
+	  <span class="has-text-primary is-size-5 has-text-weight-semibold">Dashboard</span>
+	</div>
+</a>
+[[if len(dbs) > 1: ]]
+<div class="navbar-item has-dropdown is-hoverable">
+	<a class="navbar-link">
+		<div class="icon-text">
+			<span class="icon has-text-success">
+				<i class="fas fa-database fa-lg"></i>
+			</span>
+			<span class="has-text-primary is-size-5 has-text-weight-semibold">Databases</span>
+		</div>
+	</a>
+	<div class="navbar-dropdown">
+		[[for db in dbs:]]
+			<a class="navbar-item" href="[[=URL('db_admin', vars={'current_db':db})]]">
+			[[=db]]
+			</a>
+		[[pass]] 
+		</div>
+	</div>	
+[[pass]]	
+
+[[end]]          
+<div class="columns">
+	<div class="column is-12"> 
+	
+	<div class="box">
+	<h3 class="subtitle">Database Administration</h3>
+		<table id="db_admin" class="table is-bordered is-striped is-fullwidth" style="width:100%">
+			<thead>
+				<tr>
+				[[for header in hdrs:]]
+					<th>[[=header]]</th>
+				[[pass]]
+				</tr>
+			</thead>
+		</table>
+	</div>
+</div>	
+</div>	
+<script type="text/javascript">
+$(document).ready(function(){
+    $("#db_admin").DataTable({
+        data:  [[ =XML(recs) ]],
+        columns: [[ =XML(cols) ]],
+		
+    })
+});
+</script>
