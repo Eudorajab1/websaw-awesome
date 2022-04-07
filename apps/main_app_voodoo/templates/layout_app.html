@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base href="[[=URL('static/')]]/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="data:image/x-icon;base64,AAABAAEAAQEAAAEAIAAwAAAAFgAAACgAAAABAAAAAgAAAAEAIAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAPAAAAAA=="/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.1/css/bulma.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.14.0/css/all.min.css" integrity="sha512-1PKOgIY59xJ8Co8+NE6FZ+LOAZKjy+KY8iq0G4B3CyeY6wYHN3yt9PW0XpSriVlkMXe40PTKnXrLnZ9+fkDaog==" crossorigin="anonymous" />
+    
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    
+    <script type="text/javascript" src="dropify/js/dropify.js"></script>
+    <link rel="stylesheet" type="text/css" href="dropify/css/dropify.css">
+    
+    <link rel="stylesheet" type="text/css" href="css/my.css">
+    
+    <style>.py4web-validation-error{margin-top:-16px; font-size:0.8em;color:red}</style>
+    [[block page_head]]<!-- individual pages can customize header here -->[[end]]
+  </head>
+<style>
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+body > footer {
+    margin-top: auto;
+}
+</style>  
+  <body>
+    <header>
+      <!-- Navigation bar -->
+      <nav class="navbar is-light" role="navigation" aria-label="main navigation">
+        <!-- Logo -->
+        <a class="navbar-item " href="[[=URL('index')]]">
+          <img src="websaw-logos_transparent.png" width="50">&nbsp;
+            <span class="has-text-primary is-size-5 has-text-weight-semibold">Home</span>
+          
+        </a>
+        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="my-navbar">
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+          <span aria-hidden="true"></span>
+        </a>
+        
+        <!-- Left menu ul/li -->
+        [[block page_menu_items]]<!-- individual pages can add menu items here -->[[end]]
+
+        [[block page_left_menu]][[end]]
+        <!-- Right menu ul/li -->
+        <div id="left-navbar" class="navbar-menu">
+          <div class="navbar-end">
+            <div class="navbar-item">
+              [[try:]]
+                [[if auth_user:]]
+                <a class="navbar-item">
+                  [[=auth_user['email'] ]]
+                </a>
+                <div class="buttons">
+                  <a class="button is-small is-outlined is-primary" href="[[=URL('logout')]]">Sign out</a>
+                  <a class="button is-small is-outlined is-info" href="[[=URL('profile')]]"> Profile</a>
+                </div>    
+                  
+                [[else:]]
+                <div class="buttons">
+                  <a class="button is-small is-outlined is-primary" href="[[=URL('register')]]">Sign up</a>
+                  <a class="button is-small is-outlined is-info" href="[[=URL('login')]]">Sign in</a>
+                </div>
+                [[pass]]
+              [[except:]]
+              <div class="buttons">
+                <a class="button is-small is-outlined is-primary" href="[[=URL('register')]]">Sign up</a>
+                <a class="button is-small is-outlined is-info" href="[[=URL('login')]]">Sign in</a>
+              </div>  
+              [[pass]]  
+           </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <!-- beginning of HTML inserted by extending template -->
+    [[try:]]
+    [[if flash['message']: ]]  
+      <div class="notification is-[[=flash['_class'] ]] has-text-centered">
+        <button class="delete"></button>
+        [[=flash['message'] ]]
+        </div>
+          <script>
+            document.addEventListener('DOMContentLoaded', () => {
+            (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+              const $notification = $delete.parentNode;
+
+              $delete.addEventListener('click', () => {
+                $notification.parentNode.removeChild($notification);
+              });
+            });
+          });
+        </script>
+    [[else:]]
+      [[pass]]    
+    [[except:]] 
+    [[pass]]  
+[[pass]]
+    
+    [[include]]
+    <!-- end of HTML inserted by extending template -->
+    <footer class="footer is-small">
+      <div class="content has-text-centered">
+        <p>Powered by <img src="websaw-logos_transparent.png" width="100"> <b class="is-uppercase is-italic has-text-success"></i>The Only Tool You Will Ever Need </b><a href="https://websaw.com"></a>
+        </p>
+      </div>
+    </footer>
+  </body>
+  <!-- You've gotta have utils.js -->
+  <script src="js/utils.js"></script>
+  
+  [[block page_scripts]]<!-- individual pages can add scripts here -->[[end]]
+</html>
