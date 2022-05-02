@@ -1,0 +1,105 @@
+v-def templ:
+    div(class="columns"):
+        div(class="column is-2 is-offset-1"):
+            aside(class="menu"):
+                div(class="menu-label", v-for='(room) in rooms',
+                    :key='room.id'):
+                    a(class="button is-info is-light is-rounded is-fullwidth",
+                        @click='change_room(room.name)'):
+                        '{{room.name}}'
+        div(class="column box is-6"):
+            h1(class="title has-text-success has-text-centered"):
+                '{{current_room}}'
+
+            Message(v-for='(message, m) in room_messages',
+                :key='m',
+                :class='["message", { right: message.isMine }]',
+                :dark='message.isMine',
+                :text='message.text',
+                :author='message.author'):
+            ChatBox( class="chat-box", @send= "send_message" ):
+
+v-pyj:
+@{
+import chatbox
+import message
+from asset.rs_vue import RS_vue, V_collector
+from asset.utils import asyncer
+
+vc = V_collector()
+@vc.component()
+class App(RS_vue):
+    def __init__(self):
+        self.template = templ
+        self.components={'ChatBox': chatbox.make(),
+                         'Message': message.make()
+        }
+
+        self.sockets= {'connect': self.connected,
+                       'message' : self.new_message
+        }
+
+    def data(self):
+        return {user: {},
+                messages: [],
+                rooms: [],
+                text : '',
+                current_room: '',
+                clicked : False
+        }
+    def connected(self):
+        self.current_room = 'Lobby'
+        self.$socket.emit('begin_chat', self.current_room, self.user.username)
+
+    def new_message(self, message):
+        message.isMine = False
+        self.messages.push(message)
+
+    @vc.meth
+    def send_message(self, text):
+        message ={"to_room": self.current_room,
+                "isMine": True,
+                "text": text,
+                "author": self.user.username
+        }
+        self.messages.push(message)
+        self.$socket.emit('in_message', message)
+
+    @vc.meth
+    def change_room(self, room):
+        if room != self.current_room:
+            self.$socket.emit('leave_chat', self.current_room, self.user.username)
+            self.$socket.emit('begin_chat', room, self.user.username)
+            self.current_room = room
+
+    @vc.computed
+    def room_messages(self):
+        rm = []
+        for message in self.messages:
+            if message.to_room == self.current_room:
+                rm.push(message)
+        return rm
+
+    def load(self):
+        console.log('Inside load')
+        my_data = self.get_data()
+
+    @asyncer
+    def get_data(self):
+        resp = yield axios.get('start-up')
+        self.user = resp.data.user
+        self.rooms = resp.data.rooms
+
+    def created(self):
+        console.log('Inside created')
+        self.load()
+
+app = App()
+sio = new VueSocketIO({degug:True, connection: io("http://localhost:8080/")})
+Vue.use(sio)
+
+#Vue.use(new VueSocketIO({degug:True, connection: SocketIO("http://localhost:8080")}))
+window.app = new Vue(app)
+
+window.app.$mount('#app')
+}@

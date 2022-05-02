@@ -1,0 +1,2 @@
+# this script will be compiled to static/js/chat.js
+import app

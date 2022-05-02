@@ -1,0 +1,8 @@
+'[[extend "layout_app.html"]]'
+
+'[[extend "app_layout.html"]]'
+div(class="app", id="app", data-user='[[=user]]'):
+
+v-pyj:
+    # this script will be compiled to static/js/chat.js
+    import app

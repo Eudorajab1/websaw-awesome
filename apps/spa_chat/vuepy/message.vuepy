@@ -1,0 +1,26 @@
+v-def message_templ:
+    div(:class='["message", { dark }]'):
+        h5: '{{ author }}'
+        '{{ text }}'
+
+v-pyj:
+@{
+# asset package is placed in themodule)
+from asset.rs_vue import RS_vue, V_collector
+
+# V_collector - holds a set of decorators to collect vue-specific options
+vc = V_collector()
+
+# RS_vue - the base class that unpacks the collected options into the properties of the instance,
+# does something like this: self.methods = vc._methods
+
+@vc.component()
+class Message(RS_vue):
+    def __init__(self):
+        self.template = message_templ
+        self.props = ['room', 'text', 'author','dark']
+
+
+def make():
+    return Message()
+}@

@@ -1,0 +1,23 @@
+
+<!DOCTYPE html>
+<html>
+    <meta  name = "viewport" content = "width=device-width, initial-scale=1"/>
+    <link  rel = "stylesheet" href = "[[=URL('static', 'css/chat.css')]]"/>
+    <title>SPA Chat</title>
+    <body>
+        <div class = "section">
+            <h1  class = "title has-text-primary is-light has-text-centered">Websaw Chat App</h1>
+            [[include]]
+            <footer  class = "footer">
+                <div  class = "content has-text-centered">
+                    I was made with Pyjsaw
+                </div>
+            </footer>
+        </div>
+    </body>
+    <script  src = "[[=URL('static', 'js/vue.js')]]"></script>
+    <script  src = "[[=URL('static', 'js/axios.min.js')]]"></script>
+    <script  src = "[[=URL('static', 'js/socket.io.js')]]"></script>
+    <script  src = "[[=URL('static', 'js/vue-socketio.js')]]"></script>
+    <script  src = "[[=URL('static', 'js/chat.js')]]"></script>
+</html>

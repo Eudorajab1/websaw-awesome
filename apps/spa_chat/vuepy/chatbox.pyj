@@ -1,0 +1,42 @@
+templ= """
+<form  class = 'chat-box' @submit = 'on_submit = $event'/>
+<input  v-model = 'text' placeholder = 'Write a message' type = 'text'/>
+<button  :disabled = 'text === ""'>
+    Send
+</button>
+"""
+
+
+# asset package is placed in the vuepy folder (it is a git-submodule)
+from asset.rs_vue import RS_vue, V_collector
+
+# V_collector - holds a set of decorators to collect vue-specific options
+vc = V_collector()
+
+# RS_vue - the base class that unpacks the collected options into the properties of the instance,
+# does something like this: self.methods = vc._methods
+
+@vc.component()
+class ChatBox(RS_vue):
+    def __init__(self):
+        self.template = templ
+
+    # this will go to the data-option
+    def data(self):
+        return {
+            text: ''
+        }
+
+    @vc.meth
+    def on_submit(self):
+        self.$emit('submit', self.text)
+        self.text = ''
+
+    def load(self):
+        self.messages = ['Welocme', 'How', 'Are', 'You',]
+
+    def created(self):
+        self.load()
+
+def make():
+    return ChatBox()

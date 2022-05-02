@@ -1,0 +1,63 @@
+.chat-box {
+  width: 100%;
+  display: flex;
+}
+input {
+  width: min(100%, 20rem);
+  flex-grow: 1;
+}
+button:disabled {
+  opacity: 0.5;
+}
+
+.message {
+    background: #e7e7e7;
+    border-radius: 10px;
+    padding: 1rem;
+    width: fit-content;
+  }
+  .message.dark {
+    background: #e9eaf6;
+  }
+  h5 {
+    margin: 0 0 .5rem 0;
+  }
+
+  @font-face {
+    font-family: 'Georama';
+    src: url('./assets/Georama.ttf');
+  }
+  @font-face {
+    font-family: 'Georama';
+    src: url('./assets/Georama.ttf');
+    font-weight: bold;
+  }
+  * {
+    box-sizing: border-box;
+  }
+  html {
+    font-family: 'Georama', sans-serif;
+  }
+  button {
+    border: 0;
+    background: #2a60ff;
+    color: white;
+    cursor: pointer;
+    padding: 1rem;
+  }
+  input {
+    border: 0;
+    padding: 1rem;
+    background: rgba(0, 0, 0, 0.1);
+  }
+  .messages {
+    flex-grow: 1;
+    overflow: auto;
+    padding: 1rem;
+  }
+  .message + .message {
+    margin-top: 1rem;
+  }
+  .message.right {
+    margin-left: auto;
+  }

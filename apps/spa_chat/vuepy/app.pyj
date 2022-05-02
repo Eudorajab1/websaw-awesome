@@ -1,0 +1,94 @@
+templ= """
+<div  class = "columns box">
+    <div  class = "column box is-2">
+        <aside  class = "menu">
+            <div  class = "menu-label" v-for = '(room) in rooms' :key = 'room.id'>
+                <a  class = "button is-primary is-light is-fullwidth">
+                    {{room.name}}
+                </a>
+            </div>
+        </aside>
+    </div>
+    <div  class = "column box is-6">
+        <Message  
+            v-for = '(message, m) in messages' 
+            :key = 'm' 
+            :class = '["message", { right: message.isMine }]' 
+            :dark = 'message.isMine' 
+            :text = 'message.text' 
+            :author = 'message.author'></Message>
+        <ChatBox  class = "chat-box" @send = "send_message"></ChatBox>
+    </div>
+</div>
+"""
+
+import chatbox
+import message
+from asset.rs_vue import RS_vue, V_collector
+from asset.utils import asyncer
+
+vc = V_collector()
+@vc.component()
+class App(RS_vue):
+    def __init__(self):
+        self.template = templ
+        self.components={'ChatBox': chatbox.make(),
+                         'Message': message.make()
+        }
+
+        self.sockets= {'connect': self.connected,
+                       'message' : self.new_message
+        }
+
+    def data(self):
+        return {user: {},
+                messages: [],
+                rooms: [],
+                text : '',
+                current_room: 'Lobby'
+        }
+    def connected(self):
+        self.$socket.emit('begin_chat', self.current_rooom, self.user.username)
+
+        return console.log('connected at last in app')
+
+    def new_message(self, message):
+        console.log('Inside new_message', message)
+        message.isMine = False
+        self.messages.push(message)
+
+    @vc.meth
+    def send_message(self, text):
+        message ={"to_room": self.current_room,
+                "isMine": True,
+                "text": text,
+                "author": self.user.username
+        }
+        self.messages.push(message)
+        self.$socket.emit('in_message', message)
+        console.log('Inside Send Message in App', self.messages)
+
+    def load(self):
+        console.log('Inside load')
+        my_data = self.get_data()
+
+    @asyncer
+    def get_data(self):
+        resp = yield axios.get('start-up')
+        self.user = resp.data.user
+        self.rooms = resp.data.rooms
+
+
+    def created(self):
+        console.log('Inside created')
+        self.load()
+
+
+app = App()
+sio = new VueSocketIO({degug:True, connection: io("http://localhost:8080/")})
+Vue.use(sio)
+
+#Vue.use(new VueSocketIO({degug:True, connection: SocketIO("http://localhost:8080")}))
+window.app = new Vue(app)
+
+window.app.$mount('#app')
