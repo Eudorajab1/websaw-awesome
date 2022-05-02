@@ -1,0 +1,28 @@
+'<!DOCTYPE html>'
+html:
+    meta(name="viewport", content="width=device-width, initial-scale=1"):
+    link(rel="shortcut icon", type="image/x-icon",
+             href = "[[=URL('static', 'favicon.ico')]]"):
+    link(rel="stylesheet", href="[[=URL('static', 'css/bulma.css')]]"):
+    link(rel="stylesheet",
+         href="https://use.fontawesome.com/releases/v5.8.2/css/all.css",
+         integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay",
+         crossorigin="anonymous"):
+
+    link(rel="stylesheet", href="[[=URL('static', 'css/chat.css')]]"):
+
+    title: 'SPA Chat'
+    body:
+        div( class="section"):
+            h1( class="title has-text-primary is-light has-text-centered"): 'Websaw Chat App'
+            '[[include]]'
+            footer(class="footer"):
+                div( class="content has-text-centered"):
+                    'I was made with Pyjsaw'
+
+    script( src="[[=URL('static', 'js/vue.js')]]"):
+    script( src="[[=URL('static', 'js/axios.min.js')]]"):
+    script( src="[[=URL('static', 'js/socket.io.js')]]"):
+    script( src="[[=URL('static', 'js/vue-socketio.js')]]"):
+    script( src="[[=URL('static', 'js/chat.js')]]"):
+
